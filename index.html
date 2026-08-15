@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Ambrosia Roleplay é um projeto em desenvolvimento para SA-MP Mobile, pensado desde o início para dispositivos móveis.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ambrosia Roleplay">
+  <meta property="og:description" content="Um projeto em desenvolvimento para SA-MP Mobile. Seu próximo capítulo.">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Ambrosia Roleplay">
+  <meta name="twitter:description" content="Um projeto em desenvolvimento para SA-MP Mobile. Seu próximo capítulo.">
+  <link rel="icon" href="https://i.imgur.com/e2xy29D.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://i.imgur.com/e2xy29D.png">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <title>Ambrosia Roleplay</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      color: #f4f4f6;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      position: relative;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 72% 48%, rgba(0, 110, 255, 0.12), transparent 40%),
+        radial-gradient(circle at 72% 48%, rgba(150, 150, 150, .018), transparent 42%),
+        #000;
+      z-index: -3;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .035;
+      z-index: 10;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 88px;
+      display: flex;
+      align-items: center;
+      padding: 0 50px;
+      z-index: 20;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, .88), rgba(0, 0, 0, 0));
+    }
+
+    .brand {
+      width: 170px;
+      flex-shrink: 0;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: 7px;
+      color: #fff;
+    }
+
+    .status {
+      margin-left: auto;
+      border: 1px solid #3a3a3f;
+      border-radius: 4px;
+      padding: 10px 14px;
+      color: #a7a7ac;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+
+    .status span {
+      color: #fff;
+      margin-left: 8px;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+    }
+
+    .content {
+      position: relative;
+      z-index: 5;
+      width: 43%;
+      margin-left: 10.4%;
+      margin-top: 35px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #8d8d92;
+      font-weight: 700;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(36px, 3.6vw, 58px);
+      line-height: .94;
+      letter-spacing: -2px;
+      font-weight: 800;
+      text-transform: uppercase;
+      max-width: 650px;
+    }
+
+    .description {
+      margin-top: 28px;
+      width: 390px;
+      max-width: 100%;
+      color: #b9b9bd;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .description .emphasis {
+      color: #fff;
+    }
+
+    .description .note {
+      display: block;
+      margin-top: 16px;
+      font-size: 12px;
+      color: #656565;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 28px;
+      padding: 15px 18px;
+      border: 1px solid #414147;
+      color: #f2f2f4;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 700;
+      transition: border-color .25s ease, background .25s ease, color .25s ease;
+    }
+
+    .button:hover {
+      border-color: #fff;
+      background: #fff;
+      color: #000;
+    }
+
+    .arrow {
+      font-size: 19px;
+      line-height: 0;
+      font-weight: 300;
+    }
+
+    .globe-wrap {
+      position: absolute;
+      width: min(45vw, 680px);
+      height: min(45vw, 680px);
+      aspect-ratio: 1 / 1;
+      right: 4%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      cursor: grab;
+      overflow: visible;
+    }
+
+    .globe-wrap:active {
+      cursor: grabbing;
+    }
+
+    #globe {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .globe-label {
+      position: absolute;
+      bottom: 6%;
+      right: 50%;
+      transform: translateX(50%);
+      color: #66666b;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 4;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 25px;
+      left: 50px;
+      right: 50px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #66666b;
+      font-size: 10px;
+      letter-spacing: .6px;
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .socials a {
+      color: #77777c;
+      font-size: 16px;
+      text-decoration: none;
+      transition: color .2s ease, transform .2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .socials a:hover {
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1050px) {
+      header {
+        padding: 0 28px;
+      }
+
+      .brand {
+        width: 145px;
+      }
+
+      .globe-wrap {
+        right: -5%;
+        opacity: .75;
+      }
+
+      .content {
+        margin-left: 7%;
+        width: 52%;
+      }
+
+      footer {
+        left: 28px;
+        right: 28px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        overflow: auto;
+      }
+
+      header {
+        height: 74px;
+        padding: 0 22px;
+      }
+
+      .brand {
+        font-size: 17px;
+        letter-spacing: 5px;
+        width: auto;
+      }
+
+      .status {
+        font-size: 8px;
+        padding: 8px 10px;
+      }
+
+      .hero {
+        min-height: 760px;
+        align-items: flex-start;
+        padding-top: 145px;
+      }
+
+      .content {
+        margin: 0 25px;
+        width: calc(100% - 50px);
+        z-index: 6;
+      }
+
+      h1 {
+        font-size: clamp(32px, 9vw, 46px);
+      }
+
+      .description {
+        width: 330px;
+      }
+
+      .globe-wrap {
+        width: min(85vw, 420px);
+        height: min(85vw, 420px);
+        min-width: 0;
+        min-height: 0;
+        max-width: none;
+        right: 50%;
+        top: 64%;
+        transform: translate(50%, -50%);
+        opacity: .55;
+      }
+
+      footer {
+        bottom: 18px;
+        left: 22px;
+        right: 22px;
+        align-items: flex-end;
+      }
+
+      footer > div:first-child {
+        max-width: 45%;
+      }
+
+      .socials {
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background"></div>
+  <div class="noise"></div>
+
+  <header>
+    <div class="brand">AMBROSIA</div>
+    <div class="status">
+      STATUS <span>EM DESENVOLVIMENTO</span>
+    </div>
+  </header>
+
+  <main class="hero">
+    <section class="content">
+      <div class="eyebrow">Ambrosia Roleplay</div>
+
+      <h1>
+        SEU PRÓXIMO<br>
+        CAPÍTULO<br>
+      </h1>
+
+      <p class="description">
+        Ambrosia Roleplay é um projeto em desenvolvimento para
+        <strong>SA-MP Mobile</strong>, criado com foco em uma experiência
+        moderna, acessível e pensada desde o início para dispositivos móveis.
+        Estamos construindo algo novo <strong class="emphasis">de verdade.</strong>
+        <span class="note">Futuramente disponível para computador e iOS.</span>
+      </p>
+
+      <a class="button" href="https://instagram.com/playambrosia" target="_blank" rel="noopener noreferrer">
+        SIGA O PROJETO
+        <span class="arrow">→</span>
+      </a>
+    </section>
+
+    <div class="globe-wrap" id="globeContainer" aria-label="Mapa interativo de San Andreas">
+      <canvas id="globe"></canvas>
+      <div class="globe-label">SAN ANDREAS / MAPA INTERATIVO</div>
+    </div>
+  </main>
+
+  <footer>
+    <div>AMBROSIA ROLEPLAY © 2026</div>
+    <div class="socials">
+      <a href="https://instagram.com/playambrosia" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://www.tiktok.com/@playambrosia" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="https://x.com/playambrosia" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+        <i class="fa-brands fa-x-twitter"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script>
+    const container = document.getElementById("globeContainer");
+    const canvas = document.getElementById("globe");
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(
+      35,
+      container.clientWidth / container.clientHeight,
+      0.1,
+      100
+    );
+    camera.position.z = 4.8;
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true
+    });
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(container.clientWidth, container.clientHeight, false);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambient);
+
+    const sunLight = new THREE.DirectionalLight(0xdbeafe, 2.2);
+    sunLight.position.set(-4, 2, 4);
+    scene.add(sunLight);
+
+    const backBlueLight = new THREE.DirectionalLight(0x0066ff, 1.5);
+    backBlueLight.position.set(4, -2, -3);
+    scene.add(backBlueLight);
+
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.crossOrigin = "anonymous";
+
+    const texture = textureLoader.load(
+      "https://i.imgur.com/u61NvcU.jpeg",
+      function () {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      }
+    );
+
+    const geometry = new THREE.SphereGeometry(1.35, 96, 96);
+    const material = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.9,
+      metalness: 0.1,
+      transparent: false
+    });
+
+    const globe = new THREE.Mesh(geometry, material);
+    scene.add(globe);
+
+    const atmosphereMaterial = new THREE.ShaderMaterial({
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vNormal;
+        void main() {
+          float intensity = pow(0.55 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.2);
+          gl_FragColor = vec4(0.0, 0.45, 1.0, 1.0) * intensity * 1.5;
+        }
+      `,
+      blending: THREE.AdditiveBlending,
+      side: THREE.BackSide,
+      transparent: true,
+      depthWrite: false
+    });
+
+    const atmosphere = new THREE.Mesh(
+      new THREE.SphereGeometry(1.52, 64, 64),
+      atmosphereMaterial
+    );
+    scene.add(atmosphere);
+
+    let dragging = false;
+    let previousX = 0;
+    let previousY = 0;
+    let velocityX = 0.0009;
+    let velocityY = 0;
+    let lastTime = performance.now();
+
+    container.addEventListener("pointerdown", (event) => {
+      dragging = true;
+      previousX = event.clientX;
+      previousY = event.clientY;
+      container.setPointerCapture(event.pointerId);
+    });
+
+    container.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+
+      const dx = event.clientX - previousX;
+      const dy = event.clientY - previousY;
+
+      velocityX = dx * 0.006;
+      velocityY = dy * 0.003;
+
+      globe.rotation.y += velocityX;
+      globe.rotation.x += velocityY;
+      globe.rotation.x = Math.max(-Math.PI * 0.48, Math.min(Math.PI * 0.48, globe.rotation.x));
+
+      previousX = event.clientX;
+      previousY = event.clientY;
+    });
+
+    const stopDragging = () => {
+      dragging = false;
+    };
+
+    container.addEventListener("pointerup", stopDragging);
+    container.addEventListener("pointercancel", stopDragging);
+    container.addEventListener("pointerleave", stopDragging);
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const now = performance.now();
+      const delta = Math.min((now - lastTime) / 16.67, 3);
+      lastTime = now;
+
+      if (!dragging) {
+        globe.rotation.y += velocityX * delta;
+        globe.rotation.x += velocityY * delta;
+
+        velocityX *= Math.pow(0.94, delta);
+        velocityY *= Math.pow(0.94, delta);
+
+        if (Math.abs(velocityX) < 0.00015 && Math.abs(velocityY) < 0.00005) {
+          velocityX = 0.00035;
+          velocityY = 0;
+        }
+
+        globe.rotation.x *= 0.998;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    function resize() {
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height, false);
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+    animate();
+  </script>
+</body>
+</html>
